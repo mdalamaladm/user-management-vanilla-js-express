@@ -1,5 +1,34 @@
 User Management Application
 
+Get Started:
+1. Clone the repo
+```
+(example, using SSH)
+git clone git@github.com:mdalamaladm/user-management-vanilla-js-express.git
+```
+2. Go to the directory
+```
+cd ./user-management-vanilla-js-express
+```
+3. Install NPM packages
+```
+npm install
+```
+4. Init SQL
+```
+psql -U <username> -d <current_database> -f init.sql
+```
+5. Set .env with this value
+```
+PORT=<port_number>
+PRIVATE_KEY_JWT=<private_key_jwt>
+```
+6. Start the server
+```
+npm run start
+```
+7. For Frontend, you can access index.html by clicking it, or using Live Server extension
+
 ENV:
 - PORT
 - PRIVATE_KEY_JWT
