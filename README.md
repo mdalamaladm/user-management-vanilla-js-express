@@ -20,14 +20,18 @@ psql -U <username> -d <current_database> -f init.sql
 ```
 5. Set .env with this value
 ```
-PORT=<port_number>
+PORT_SERVER=<port_server>
+PORT_APP=<port_app>
 PRIVATE_KEY_JWT=<private_key_jwt>
 ```
 6. Start the server
 ```
-npm run start
+npm run start:server
 ```
-7. For Frontend, you can access index.html by clicking it, or using Live Server extension
+7. Start the app
+```
+npm run start:app
+```
 
 ENV:
 - PORT
