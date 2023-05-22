@@ -1,6 +1,6 @@
-User Management Application
+# User Management Application
 
-Get Started:
+## Get Started
 1. Clone the repo
 ```
 (example, using SSH)
@@ -33,11 +33,7 @@ npm run start:server
 npm run start:app
 ```
 
-ENV:
-- PORT
-- PRIVATE_KEY_JWT
-
-Pages:
+## Pages
 1. Login
 2. Register
 3. Profile
@@ -45,12 +41,12 @@ Pages:
 5. Roles
 6. Permissions
 
-Roles:
-1. Admin (1, 2 ,3 ,4 ,5, 6)
-2. User (1, 2, 3)
+## Roles
+1. Admin (Page Number 1, 2 ,3 ,4 ,5, and 6)
+2. User (Page Number 1, 2, and 3)
 3. Custom (many)
 
-Actions:
+## Actions
 1. Create User (Registration)
 2. Read User
 3. Read User By Id
@@ -63,7 +59,7 @@ Actions:
 10. Delete Role
 11. Read Permission
 
-Models:
+## Models
 1. User
 - id
 - name
@@ -81,7 +77,7 @@ Models:
 - role_id
 - permission_id
 
-Internal Code:
+## Internal Code
 1. UM001 - Registration Success
 2. UM002 - Login Success
 3. UM003 - User Created (Admin)
