@@ -82,10 +82,12 @@ userRouter.post('/', async (req, res, next) => {
       data
     });
   } catch (e) {
+    const errorMessage = e.message;
+
     res.status(500).json({
       httpCode: 500,
       code: 'UMER001',
-      message: e
+      message: errorMessage
     });
   }
 });
@@ -117,6 +119,8 @@ userRouter.post('/token', async (req, res, next) => {
       });
     }
 
+    const payload = { roleId: user.role_id };
+
     const token = jwt.sign(payload, PRIVATE_KEY_JWT);
 
     res.status(200).json({
@@ -126,10 +130,12 @@ userRouter.post('/token', async (req, res, next) => {
       data: { token }
     });
   } catch (e) {
+    const errorMessage = e.message;
+
     res.status(500).json({
       httpCode: 500,
       code: 'UMER002',
-      message: e
+      message: errorMessage
     });
   }
 });
