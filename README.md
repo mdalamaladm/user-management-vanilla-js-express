@@ -49,7 +49,7 @@ npm run start:app
 ## Actions
 1. Create User (Registration) - DONE
 2. Read User
-3. Read User By Id
+3. Read Profile - DONE
 4. Update User
 5. Delete User
 6. Login (Token) - DONE
@@ -92,7 +92,7 @@ npm run start:app
 12. UMER0012 - Token not found
 13. UMER0013 - Token is invalid
 14. UMER0014 - User unauthorized
-15. UM0015 - User By Id Fetched
+15. UM0015 - Profile Fetched
 
 For Error, Add 'ER' after 'UM'
 

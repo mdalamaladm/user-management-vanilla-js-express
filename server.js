@@ -199,7 +199,7 @@ userRouter.get('/profile', checkAccess('access-profile'), async (req, res, next)
     res.status(200).json({
       httpCode: 200,
       code: 'UM0015',
-      message: 'User By Id Fetched',
+      message: 'Profile Fetched',
       data: { profile }
     });
   } catch (e) {
