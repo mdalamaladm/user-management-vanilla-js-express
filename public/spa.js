@@ -256,11 +256,123 @@ async function profilePage () {
     }
   });
 
-  // layoutComponent.
+  layoutComponent.init('profile-page');
+}
+
+async function usersPage () {
+  setTitle('Users');
+
+  setCSS('users-page', ``);
+  
+  await setPage({
+    page: () => layoutComponent(
+      `<div class="users-page">
+        USERS PAGE
+      </div>
+      `
+    ),
+    loading: `<div>LOADING BOSS</div>`,
+    onLoad: async () => {
+      const response = { httpCode: 200 };
+
+      if (response.httpCode >= 400) {
+        showSnackbar('error', message, 2000);
+
+        return {
+          isReady: false,
+          status: 400
+        };
+      } else {
+        return {
+          isReady: true,
+          status: 200,
+          data: {}
+        }
+      }
+    }
+  });
+
+  layoutComponent.init('users-page');
+}
+
+async function rolesPage () {
+  setTitle('Roles');
+
+  setCSS('roles-page', ``);
+  
+  await setPage({
+    page: () => layoutComponent(
+      `<div class="roles-page">
+        ROLES PAGE
+      </div>
+      `
+    ),
+    loading: `<div>LOADING BOSS</div>`,
+    onLoad: async () => {
+      const response = { httpCode: 200 };
+
+      if (response.httpCode >= 400) {
+        showSnackbar('error', message, 2000);
+
+        return {
+          isReady: false,
+          status: 400
+        };
+      } else {
+        return {
+          isReady: true,
+          status: 200,
+          data: {}
+        }
+      }
+    }
+  });
+
+  layoutComponent.init('roles-page');
+}
+
+async function permissionsPage () {
+  setTitle('Permissions');
+
+  setCSS('permissions-page', ``);
+  
+  await setPage({
+    page: () => layoutComponent(
+      `<div class="permissions-page">
+        PERMISSIONS PAGE
+      </div>
+      `
+    ),
+    loading: `<div>LOADING BOSS</div>`,
+    onLoad: async () => {
+      const response = { httpCode: 200 };
+
+      if (response.httpCode >= 400) {
+        showSnackbar('error', message, 2000);
+
+        return {
+          isReady: false,
+          status: 400
+        };
+      } else {
+        return {
+          isReady: true,
+          status: 200,
+          data: {}
+        }
+      }
+    }
+  });
+
+  layoutComponent.init('permissions-page');
 }
 
 function layoutComponent (child) {
   setCSS('layout-component', `
+    .nav-active {
+      background-color: orange;
+      color: white;
+    }
   `);
 
   return `<div class="header-sidebar">
@@ -286,7 +398,9 @@ function layoutComponent (child) {
 </div>`
 }
 
-layoutComponent.logout = (currentPage) => {
+layoutComponent.init = (currentPage) => {
+  const currentName = currentPage.split('-')[0];
+
   const logoutButton = document.querySelector('.header-sidebar__logout');
 
   logoutButton.onclick = () => {
@@ -295,6 +409,26 @@ layoutComponent.logout = (currentPage) => {
     removeCSS('layout-component');
     loginPage();
   }
+
+  const navButtons = document.querySelectorAll('.header-sidebar__nav > button');
+
+  Array.from(navButtons).forEach((button) => {
+    if (button.innerHTML.toLowerCase() === currentName) {
+      button.classList.add('nav-active');
+    } else {
+      button.onclick = () => {
+        removeCSS(currentPage);
+        removeCSS('layout-component');
+
+        const name = button.innerHTML.toLowerCase();
+
+        if (name === 'profile') profilePage();
+        else if (name === 'users') usersPage();
+        else if (name === 'roles') rolesPage();
+        else if (name === 'permissions') permissionsPage();
+      }
+    }
+  })
 }
 
 function initSnackbar () {
