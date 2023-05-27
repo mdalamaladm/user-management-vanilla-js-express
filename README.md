@@ -47,12 +47,12 @@ npm run start:app
 3. Custom (many)
 
 ## Actions
-1. Create User (Registration)
+1. Create User (Registration) - DONE
 2. Read User
 3. Read User By Id
 4. Update User
 5. Delete User
-6. Login (Token)
+6. Login (Token) - DONE
 7. Create Role
 8. Read Role
 9. Update Role
@@ -89,6 +89,10 @@ npm run start:app
 9. UM009 - Role Deleted
 10. UM0010 - Role Fetched
 11. UM0011 - Permission Fetched
+12. UMER0012 - Token not found
+13. UMER0013 - Token is invalid
+14. UMER0014 - User unauthorized
+15. UM0015 - User By Id Fetched
 
 For Error, Add 'ER' after 'UM'
 
