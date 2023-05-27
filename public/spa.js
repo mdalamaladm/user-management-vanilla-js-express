@@ -91,9 +91,6 @@ function loginPage () {
 
         showSnackbar('success', message, 2000);
 
-        document.getElementById('login-username').value = '';
-        document.getElementById('login-password').value = '';
-
         removeCSS('login-page');
         profilePage();
       }  
@@ -218,43 +215,64 @@ async function profilePage () {
   setCSS('profile-page', ``);
   
   await setPage({
-    page: 
-      layoutComponent(
-        `<div class="profile-page">
-          <div class="profile-image-wrapper">
-            <img src="" alt="">
-          </div>
-          <h1>Nama</h1>
-          <h2>Deskripsi</h2>
-          <h3>Peran</h3>
-          <button class="profile-logout-button">Logout</button>
+    page: ({ name, description, photo, role }) => layoutComponent(
+      `<div class="profile-page">
+        <div class="profile-image-wrapper">
+          <img src="${photo}" alt="Profile Photo">
         </div>
-        `
-      ),
+        <h1>${name}</h1>
+        <h2>${description}</h2>
+        <h3>${role}</h3>
+      </div>
+      `
+    ),
     loading: `<div>LOADING BOSS</div>`,
-    isReady: () => new Promise(resolve => setTimeout(() => resolve(true), 3000)) 
+    onLoad: async () => {
+      const token = localStorage.getItem('token');
+
+      const rawResponse = await fetch('http://localhost:5000/user/profile', {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const response = await rawResponse.json();
+      
+      const message = `${response.code} - ${response.message}`;
+
+      if (response.httpCode >= 400) {
+        showSnackbar('error', message, 2000);
+
+        return {
+          isReady: false,
+          status: 400
+        };
+      } else {
+        return {
+          isReady: true,
+          status: 200,
+          data: response.data.profile
+        }
+      }
+    }
   });
 
-  const logoutButton = document.querySelector('.profile-logout-button');
-
-  logoutButton.onclick = () => {
-    localStorage.removeItem('token');
-    removeCSS('profile-page');
-    removeCSS('layout-component');
-    loginPage();
-  }
+  // layoutComponent.
 }
 
 function layoutComponent (child) {
   setCSS('layout-component', `
   `);
 
-  return `<div class="layout">
-  <div class="layout-header"></div>
-  <div class="layout-main">
-    <div class="layout-sidebar">
+  return `<div class="header-sidebar">
+  <div class="header-sidebar__header">
+    <button class="header-sidebar__logout">
+      Logout
+    </button>
+  </div>
+  <div class="header-sidebar__main">
+    <div class="header-sidebar__sidebar">
       <h1>User Management</h1>
-      <div class="layout-nav">
+      <div class="header-sidebar__nav">
         <button>Profile</button>
         <button>Users</button>
         <button>Roles</button>
@@ -266,6 +284,17 @@ function layoutComponent (child) {
     </div>
   </div>
 </div>`
+}
+
+layoutComponent.logout = (currentPage) => {
+  const logoutButton = document.querySelector('.header-sidebar__logout');
+
+  logoutButton.onclick = () => {
+    localStorage.removeItem('token');
+    removeCSS(currentPage);
+    removeCSS('layout-component');
+    loginPage();
+  }
 }
 
 function initSnackbar () {
@@ -341,8 +370,12 @@ async function setPage (pageOption) {
   } else {
     app.innerHTML = pageOption.loading;
 
-    if (await pageOption.isReady()) {
-      app.innerHTML = pageOption.page;
+    const res = await pageOption.onLoad();
+
+    if (res.isReady) {
+      app.innerHTML = pageOption.page(res.data);
+    } else {
+      app.innerHTML = errorPage(res.status)
     }
   }
 }
