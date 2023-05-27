@@ -23,6 +23,53 @@ server.use(express.json());
 
 const userRouter = express.Router();
 
+function authJWT (req, res, next) {
+  const headerAuth = req.headers.authorization;
+
+  if (headerAuth) {
+    const token = headerAuth.split(' ')[1];
+
+    jwt.verify(token, PRIVATE_KEY_JWT, (err, user) => {
+      if (err) {
+        return res.status(403).json({
+          httpCode: 403,
+          code: 'UMER0013',
+          message: 'Token is invalid'
+        });
+      }
+
+      req.user = user;
+      next();
+    })
+  } else {
+    return res.status(401).json({
+      httpCode: 401,
+      code: 'UMER0012',
+      message: 'Token not found'
+    });
+  }
+};
+
+function checkAccess (permission) {
+  return async function (req, res, next) {
+    const { roleId } = req?.user;
+
+    const rolesPermissions = await pgPool.query(`SELECT permissions.name FROM roles_permissions INNER JOIN permissions ON permissions.id = roles_permissions.permission_id WHERE roles_permissions.role_id = '${roleId}'`);
+
+    const permissions = rolesPermissions.rows.map(data => data.name);
+
+    if (!permissions.includes(permission)) {
+      return res.status(403).json({
+        httpCode: 403,
+        code: 'UMER0014',
+        message: 'User unauthorized'
+      });
+    }
+
+    next();
+  }
+}
+
 userRouter.post('/', async (req, res, next) => {
   try {
     const id = uuidv4();
@@ -97,7 +144,7 @@ userRouter.post('/token', async (req, res, next) => {
     const { username, password } = req.body;
 
     const user =
-      (await pgPool.query(`SELECT hash FROM users WHERE users.username = '${username}'`)).rows[0];
+      (await pgPool.query(`SELECT id, hash, role_id FROM users WHERE users.username = '${username}'`)).rows[0];
 
     if (!user) {
       return res.status(400).json({
@@ -119,9 +166,9 @@ userRouter.post('/token', async (req, res, next) => {
       });
     }
 
-    const payload = { roleId: user.role_id };
+    const payload = { userId: user.id, roleId: user.role_id };
 
-    const token = jwt.sign(payload, PRIVATE_KEY_JWT);
+    const token = jwt.sign(payload, PRIVATE_KEY_JWT, { expiresIn: '1h' });
 
     res.status(200).json({
       httpCode: 200,
@@ -140,40 +187,20 @@ userRouter.post('/token', async (req, res, next) => {
   }
 });
 
-userRouter.post('/access', async (req, res, next) => {
+userRouter.use(authJWT);
+
+userRouter.get('/profile', checkAccess('access-profile'), async (req, res, next) => {
   try {
-    const { access } = req.body;
+    const { userId } = req.user;
 
-    const user =
-      (await pgPool.query(`SELECT hash FROM users WHERE users.username = '${username}'`)).rows[0];
-
-    if (!user) {
-      return res.status(400).json({
-        httpCode: 400,
-        code: 'UMER002',
-        message: 'Username or Password is invalid'
-      });
-    }
-
-    const userPassword = user.hash;
-
-    const isPasswordValid = await bcrypt.compare(password, userPassword);
-
-    if (!isPasswordValid) {
-      return res.status(400).json({
-        httpCode: 400,
-        code: 'UMER002',
-        message: 'Username or Password is invalid'
-      });
-    }
-
-    const token = jwt.sign(payload, PRIVATE_KEY_JWT);
+    const profile =
+      (await pgPool.query(`SELECT users.id, users.name, users.description, users.photo, roles.name AS role FROM users INNER JOIN roles ON users.role_id = roles.id WHERE users.id = '${userId}'`)).rows[0];
 
     res.status(200).json({
       httpCode: 200,
-      code: 'UM002',
-      message: 'Login Success',
-      data: { token }
+      code: 'UM0015',
+      message: 'User By Id Fetched',
+      data: { profile }
     });
   } catch (e) {
     res.status(500).json({
