@@ -27,9 +27,13 @@ export async function setPage (pageOption) {
 
     if (res.isReady) {
       app.innerHTML = pageOption.page(res.data);
+
+      return false;
     } else {
       removeCSS('header-sidebar-layout');
-      app.innerHTML = errorPage(res.status, res.message, res.data.page)
+      errorPage(res.httpCode, res.message, res.data.page);
+
+      return true;
     }
   }
 }
