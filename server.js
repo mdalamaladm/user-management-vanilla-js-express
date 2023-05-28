@@ -4,10 +4,10 @@ const express = require('express');
 const cors = require('cors');
 const PORT = process.env.PORT_SERVER;
 
-const profileRouter = require('./routers/profile.js');
-const usersRouter = require('./routers/users.js');
-const rolesRouter = require('./routers/roles.js');
-const permissionsRouter = require('./routers/permissions.js');
+const profileRouter = require('./routers/profileRouter.js');
+const usersRouter = require('./routers/usersRouter.js');
+const rolesRouter = require('./routers/rolesRouter.js');
+const permissionsRouter = require('./routers/permissionsRouter.js');
 
 const server = express();
 
