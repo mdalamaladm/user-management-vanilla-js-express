@@ -30,4 +30,4 @@ exports.authJWTMiddleware = function authJWTMiddleware (req, res, next) {
 
 exports.getJWT = function getJWT (payload) {
   return jwt.sign(payload, PRIVATE_KEY_JWT, { expiresIn: '1h' });
-}
+};
