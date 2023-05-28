@@ -1,4 +1,4 @@
-import { snackbarComponent } from "../components/index.js";
+import { dialogComponent, snackbarComponent } from "../components/index.js";
 import { headerSidebarLayout } from "../layouts/index.js";
 import { setCSS, setPage, setTitle } from "../utils.js";
 
@@ -7,7 +7,7 @@ export async function profilePage () {
 
   setCSS('profile-page', ``);
   
-  const isError = await setPage({
+  const { data, isError } = await setPage({
     page: ({ name, description, photo, role }) => headerSidebarLayout(
       `<div class="profile-page">
         <div class="profile-image-wrapper">
@@ -16,6 +16,8 @@ export async function profilePage () {
         <h1>${name}</h1>
         <h2>${description}</h2>
         <h3>${role}</h3>
+        <button class="edit-button">Edit</button>
+        <button class="delete-button">Delete Account</button>
       </div>
       `
     ),
@@ -57,4 +59,10 @@ export async function profilePage () {
   if (isError) return;
 
   headerSidebarLayout.init('profile-page');
+
+  const editButton = document.querySelector('.edit-button');
+
+  editButton.onclick = () => {
+    dialogComponent('HALO INI DI DALAM DIALOG');
+  }
 }
