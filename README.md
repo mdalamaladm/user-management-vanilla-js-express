@@ -34,12 +34,21 @@ npm run start:app
 ```
 
 ## Pages
-1. Login
-2. Register
-3. Profile
-4. Users
-5. Roles
-6. Permissions
+1. Login - DONE
+2. Register - DONE
+3. Profile - DONE
+4. Users - 25%
+5. Roles - 25%
+6. Permissions - 25%
+
+## Layouts
+1. Header Sidebar - DONE
+
+## Components
+1. Snackbar - DONE
+2. Table
+3. Form - 50%
+4. Dialog
 
 ## Roles
 1. Admin (Page Number 1, 2 ,3 ,4 ,5, and 6)
@@ -47,17 +56,20 @@ npm run start:app
 3. Custom (many)
 
 ## Actions
-1. Create User (Registration) - DONE
-2. Read User
+1. Registration - DONE
+2. Login (Token) - DONE
 3. Read Profile - DONE
-4. Update User
-5. Delete User
-6. Login (Token) - DONE
-7. Create Role
-8. Read Role
-9. Update Role
-10. Delete Role
-11. Read Permission
+4. Update Profile
+5. Delete Profile
+6. Create User - 50%
+7. Read User - 50%
+8. Update User
+9. Delete User
+10. Create Role 
+11. Read Role - 50%
+12. Update Role
+13. Delete Role
+14. Read Permission - 50%
 
 ## Models
 1. User
