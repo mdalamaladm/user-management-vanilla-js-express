@@ -83,15 +83,15 @@ npm run start:app
 3. UM003 - Profile Fetched
 4. UM004 - Profile Updated
 5. UM005 - Profile Deleted
-6. UM006 - User Fetched
+6. UM006 - Users Fetched
 7. UM007 - User Created
 8. UM008 - User Updated
 9. UM009 - User Deleted
-10. UM0010 - Role Fetched
+10. UM0010 - Roles Fetched
 11. UM0011 - Role Created
 12. UM0012 - Role Updated
 13. UM0013 - Role Deleted
-14. UM0014 - Permission Fetched
+14. UM0014 - Permissions Fetched
 15. UMER0015 - Token not found
 16. UMER0016 - Token is invalid
 17. UMER0017 - User unauthorized
