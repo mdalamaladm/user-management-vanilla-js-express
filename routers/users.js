@@ -109,6 +109,25 @@ usersRouter.post('/token',
 usersRouter.use(authJWTMiddleware);
 usersRouter.use(checkAccessMiddleware('access-users'));
 
+usersRouter.route('/')
+  .get(async (req, res) => {
+    try {
+      const users =
+        (await pgPool.query(`SELECT users.id, users.name, users.description, users.photo, users.username, users.hash, roles.name AS role FROM users INNER JOIN roles ON users.role_id = roles.id`)).rows;
 
+      res.status(200).json({
+        httpCode: 200,
+        code: 'UM006',
+        message: 'Users Fetched',
+        data: { users }
+      });
+    } catch (e) {
+      res.status(500).json({
+        httpCode: 500,
+        code: 'UMER006',
+        message: e
+      });
+    }
+  })
 
 module.exports = usersRouter;
