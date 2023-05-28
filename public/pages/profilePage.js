@@ -7,7 +7,7 @@ export async function profilePage () {
 
   setCSS('profile-page', ``);
   
-  await setPage({
+  const isError = await setPage({
     page: ({ name, description, photo, role }) => headerSidebarLayout(
       `<div class="profile-page">
         <div class="profile-image-wrapper">
@@ -37,20 +37,24 @@ export async function profilePage () {
 
         return {
           isReady: false,
-          status: response.code,
+          httpCode: response.httpCode,
+          code: response.code,
           message: response.message,
           data: { page: 'profile-page' }
         };
       } else {
         return {
           isReady: true,
-          status: response.code,
+          httpCode: response.httpCode,
+          code: response.code,
           message: response.message,
           data: response.data.profile
         }
       }
     }
   });
+
+  if (isError) return;
 
   headerSidebarLayout.init('profile-page');
 }
