@@ -44,10 +44,10 @@ DECLARE
 BEGIN
   INSERT INTO permissions
   VALUES
-    (id_user_permission, 'access-user'),
     (id_profile_permission, 'access-profile'),
-    (id_role_permission, 'access-role'),
-    (id_permission_permission, 'access-permission')
+    (id_user_permission, 'access-users'),
+    (id_role_permission, 'access-roles'),
+    (id_permission_permission, 'access-permissions')
   ;
 
   INSERT INTO roles
