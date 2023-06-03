@@ -16,7 +16,7 @@ profileRouter.route('/')
       const { userId } = req.user;
 
       const profile =
-        (await pgPool.query(`SELECT users.id, users.name, users.description, users.photo, roles.name AS role FROM users INNER JOIN roles ON users.role_id = roles.id WHERE users.id = '${userId}'`)).rows[0];
+        (await pgPool.query(`SELECT users.id, users.name, users.description, users.photo, users.username, roles.name AS role FROM users INNER JOIN roles ON users.role_id = roles.id WHERE users.id = '${userId}'`)).rows[0];
 
       res.status(200).json({
         httpCode: 200,
@@ -44,14 +44,14 @@ profileRouter.route('/')
 
         for (const name in req.body) {
           if (name === 'password') {
-            setValues.push(`${name} = ${await bcrypt.hash(req.body[name], 10)}`);
+            setValues.push(`${name} = '${await bcrypt.hash(req.body[name], 10)}'`);
           } else {
-            setValues.push(`${name} = ${req.body[name]}`);
+            setValues.push(`${name} = '${req.body[name]}'`);
           }
         }
 
         const profile =
-          (await pgPool.query(`UPDATE users SET ${setValues.join(',')} WHERE id = '${userId}'`));
+          (await pgPool.query(`UPDATE users SET ${setValues.join(',')} WHERE id = '${userId}';`));
 
         res.status(200).json({
           httpCode: 200,
@@ -63,7 +63,7 @@ profileRouter.route('/')
         res.status(500).json({
           httpCode: 500,
           code: 'UMER004',
-          message: e
+          message: e.message
         });
       }
     }
