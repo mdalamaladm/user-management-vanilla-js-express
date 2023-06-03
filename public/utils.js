@@ -28,12 +28,12 @@ export async function setPage (pageOption) {
     if (res.isReady) {
       app.innerHTML = pageOption.page(res.data);
 
-      return false;
+      return { data: res.data };
     } else {
       removeCSS('header-sidebar-layout');
       errorPage(res.httpCode, res.message, res.data.page);
 
-      return true;
+      return { isError: true };
     }
   }
 }
