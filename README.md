@@ -47,9 +47,9 @@ npm run start:app
 
 ## Components
 1. Snackbar - DONE
-2. Table
-3. Form - 50%
-4. Dialog
+2. Table - DONE
+3. Form - DONE
+4. Dialog - DONE
 
 ## Roles
 1. Admin (Page Number 1, 2 ,3 ,4 ,5, and 6)
