@@ -37,9 +37,9 @@ npm run start:app
 1. Login - DONE
 2. Register - DONE
 3. Profile - DONE
-4. Users - 25%
-5. Roles - 25%
-6. Permissions - 25%
+4. Users - DONE
+5. Roles - DONE
+6. Permissions - DONE
 
 ## Layouts
 1. Header Sidebar - DONE
@@ -59,17 +59,17 @@ npm run start:app
 1. Registration - DONE
 2. Login (Token) - DONE
 3. Read Profile - DONE
-4. Update Profile
-5. Delete Profile
-6. Create User - 50%
-7. Read User - 50%
-8. Update User
-9. Delete User
-10. Create Role 
-11. Read Role - 50%
-12. Update Role
-13. Delete Role
-14. Read Permission - 50%
+4. Update Profile - DONE
+5. Delete Profile - DONE
+6. Create User - DONE
+7. Read User - DONE
+8. Update User - DONE
+9. Delete User - DONE
+10. Create Role - DONE
+11. Read Role - DONE
+12. Update Role - DONE
+13. Delete Role - DONE
+14. Read Permission - DONE
 
 ## Models
 1. User
