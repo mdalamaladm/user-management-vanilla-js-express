@@ -108,6 +108,10 @@ npm run start:app
 16. UMER0016 - Token is invalid
 17. UMER0017 - User unauthorized
 
-For Error, Add 'ER' after 'UM'
+## Internal Code (References)
+1. UMREF001 - Roles Fetched
+2. UMREF002 - Permissions Fetched
+
+For Internal Code Error, Add 'ER' before the number
 
 
