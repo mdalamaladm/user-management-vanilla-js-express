@@ -1,4 +1,4 @@
-import { snackbarComponent } from "../components/index.js";
+import { snackbarComponent, tableComponent } from "../components/index.js";
 import { headerSidebarLayout } from "../layouts/index.js";
 import { setCSS, setPage, setTitle } from "../utils.js";
 
@@ -6,11 +6,18 @@ export async function permissionsPage () {
   setTitle('Permissions');
 
   setCSS('permissions-page', ``);
+
+  const columns = {
+    name: 'Name',
+  };
   
   await setPage({
     page: (data) => headerSidebarLayout(
       `<div class="permissions-page">
-        ${JSON.stringify(data)}
+        ${tableComponent('permissions', {
+          columns,
+          data: data.permissions,
+        })}
       </div>
       `
     ),
