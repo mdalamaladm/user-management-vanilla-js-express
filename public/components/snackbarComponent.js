@@ -28,6 +28,7 @@ snackbarComponent.init = function () {
     width: 100%;
     position: fixed;
     bottom: 50px;
+    z-index: 999;
   }
   
   .snackbar-success {
