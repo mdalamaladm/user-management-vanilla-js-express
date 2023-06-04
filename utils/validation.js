@@ -1,14 +1,23 @@
 const { pgPool } = require("./db");
 
-exports.checkAccessMiddleware = function checkAccessMiddleware (permission) {
+exports.checkAccessMiddleware = function checkAccessMiddleware (permissions) {
   return async function (req, res, next) {
     const { roleId } = req?.user;
 
-    const rolesPermissions = await pgPool.query(`SELECT permissions.name FROM roles_permissions INNER JOIN permissions ON permissions.id = roles_permissions.permission_id WHERE roles_permissions.role_id = '${roleId}'`);
+    const resRolesPermissions = await pgPool.query(`SELECT permissions.name FROM roles_permissions INNER JOIN permissions ON permissions.id = roles_permissions.permission_id WHERE roles_permissions.role_id = '${roleId}'`);
 
-    const permissions = rolesPermissions.rows.map(data => data.name);
+    const rolePermissions = resRolesPermissions.rows.map(data => data.name);
 
-    if (!permissions.includes(permission)) {
+    if (
+      (
+        Array.isArray(permissions) &&
+        !(permissions.some(p => rolePermissions.includes(p)))
+      ) ||
+      (
+        !Array.isArray(permissions) &&
+        !rolePermissions.includes(permissions)  
+      )
+    ) {
       return res.status(403).json({
         httpCode: 403,
         code: 'UMER0014',
@@ -23,7 +32,11 @@ exports.checkAccessMiddleware = function checkAccessMiddleware (permission) {
 exports.requiredBodyMiddleware = function requiredBodyMiddleware (errorCode, names) {
   return function (req, res, next) {
     for (const name of names) {
-      if (!req.body[name]) {
+      const data = req.body[name];
+      if (
+        (Array.isArray(data) && data.length < 1) ||
+        !data
+      ) {
         return res.status(400).json({
           httpCode: 400,
           code: errorCode,
