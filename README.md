@@ -1,4 +1,5 @@
 # User Management Application
+This is repository for User Management Application with ExpressJs as Backend and VanillaJS as Frontend
 
 ## Get Started
 1. Clone the repo
