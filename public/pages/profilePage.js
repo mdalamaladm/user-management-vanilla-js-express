@@ -1,6 +1,7 @@
 import { dialogComponent, formComponent, snackbarComponent } from "../components/index.js";
 import { headerSidebarLayout } from "../layouts/index.js";
-import { setCSS, setPage, setTitle } from "../utils.js";
+import { removeCSS, setCSS, setPage, setTitle } from "../utils.js";
+import { loginPage } from "./loginPage.js";
 
 export async function profilePage () {
   setTitle('Profile');
@@ -17,7 +18,7 @@ export async function profilePage () {
         <h2>${description}</h2>
         <h3>${role}</h3>
         <button class="edit-button">Edit</button>
-        <button class="delete-button">Delete Account</button>
+        <button class="remove-button">Remove Account</button>
       </div>
       `
     ),
@@ -61,6 +62,7 @@ export async function profilePage () {
   headerSidebarLayout.init('profile-page');
 
   const editButton = document.querySelector('.edit-button');
+  const removeButton = document.querySelector('.remove-button');
 
   editButton.onclick = () => {
     const closeDialog = dialogComponent(
@@ -94,8 +96,6 @@ export async function profilePage () {
     );
 
     formComponent.init('edit-profile', async (payload) => {
-      console.log(payload);
-
       const token = localStorage.getItem('token');
 
       const rawResponse = await fetch('http://localhost:5000/profile', {
@@ -121,5 +121,51 @@ export async function profilePage () {
         profilePage();
       }
     });
-  }
+  };
+
+  removeButton.onclick = () => {
+    const closeDialog = dialogComponent(`
+        <div>
+          <p>Are You sure want to remove this Account?</p>
+          <div>
+            <button class="cancel-button-dialog">Cancel</button>
+            <button class="remove-button-dialog">Remove</button>
+          </div>
+        </div>
+    `);
+
+    const cancelButtonDialog = document.querySelector('.cancel-button-dialog');
+    const removeButtonDialog = document.querySelector('.remove-button-dialog');
+
+    cancelButtonDialog.onclick = closeDialog;
+
+    removeButtonDialog.onclick = async () => {
+      const token = localStorage.getItem('token');
+
+      const rawResponse = await fetch(`http://localhost:5000/profile`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const response = await rawResponse.json();
+      
+      const message = `${response.code} - ${response.message}`;
+
+      if (response.httpCode >= 400) {
+        snackbarComponent('error', message, 2000);
+      } else {
+        closeDialog();
+
+        snackbarComponent('success', message, 2000);
+
+        localStorage.removeItem('token');
+        removeCSS('profile-page');
+        removeCSS('header-sidebar-layout');
+        loginPage();
+      }
+    }
+  };
 }
