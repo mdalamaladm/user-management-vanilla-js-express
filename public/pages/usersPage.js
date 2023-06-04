@@ -76,8 +76,6 @@ export async function usersPage () {
     }
   });
 
-  console.log(data);
-
   if (isError) return;
 
   headerSidebarLayout.init('users-page');

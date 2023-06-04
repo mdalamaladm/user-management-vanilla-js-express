@@ -16,8 +16,6 @@ export function tableComponent (name, option) {
     columnsElement.push(`<th></th>`);
   }
 
-  console.log(option.data);
-
   const dataElement = [];
   for (const index in option.data) {
     const row = option.data[index];
