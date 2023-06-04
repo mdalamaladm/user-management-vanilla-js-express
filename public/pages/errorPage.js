@@ -5,6 +5,7 @@ import { profilePage } from "./profilePage.js";
 export function errorPage (errorHttpCode, errorMessage, fromPage) {
   const isUnauthorized = errorHttpCode === 403 && errorMessage === 'User unauthorized';
   const isTokenInvalid = errorHttpCode === 403 && errorMessage === 'Token is invalid';
+  const isProfileNotFound = errorHttpCode === 404 && errorMessage === 'Profile Not Found';
   const isFromProfilePage = fromPage === 'profile-page';
 
   setTitle(`Error ${errorHttpCode}`);
@@ -23,7 +24,7 @@ export function errorPage (errorHttpCode, errorMessage, fromPage) {
   const backButton = document.querySelector('.back-button');
   const loginButton = document.querySelector('.login-button');
 
-  if (isTokenInvalid || (isFromProfilePage && isUnauthorized)) {
+  if (isProfileNotFound || isTokenInvalid || (isFromProfilePage && isUnauthorized)) {
     backButton.hidden = true;
   } else {
     loginButton.hidden = true;
