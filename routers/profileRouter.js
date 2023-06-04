@@ -18,6 +18,14 @@ profileRouter.route('/')
       const profile =
         (await pgPool.query(`SELECT users.id, users.name, users.description, users.photo, users.username, roles.name AS role FROM users INNER JOIN roles ON users.role_id = roles.id WHERE users.id = '${userId}'`)).rows[0];
 
+      if (!profile) {
+        return res.status(404).json({
+          httpCode: 404,
+          code: 'UMER003',
+          message: 'Profile Not Found',
+        });
+      }
+
       res.status(200).json({
         httpCode: 200,
         code: 'UM003',
@@ -73,7 +81,7 @@ profileRouter.route('/')
       const { userId } = req.user;
 
       const profile =
-        (await pgPool.query(`REMOVE FROM users WHERE id = '${userId}'`));
+        (await pgPool.query(`DELETE FROM users WHERE id = '${userId}'`));
 
       res.status(200).json({
         httpCode: 200,
