@@ -29,14 +29,16 @@ CREATE TABLE users (
   username VARCHAR NOT NULL UNIQUE,
   hash VARCHAR,
   role_id UUID,
-  FOREIGN KEY(role_id) REFERENCES roles(id)
+  FOREIGN KEY(role_id) REFERENCES roles(id) ON DELETE SET NULL
 );
 
 DO $$
 DECLARE
-  id_user_permission uuid = gen_random_uuid();
   id_profile_permission uuid = gen_random_uuid();
+  id_user_permission uuid = gen_random_uuid();
+  id_user_reference_role_permission uuid = gen_random_uuid();
   id_role_permission uuid = gen_random_uuid();
+  id_role_reference_permission_permission uuid = gen_random_uuid();
   id_permission_permission uuid = gen_random_uuid();
   id_admin uuid = gen_random_uuid();
   id_user uuid = gen_random_uuid();
@@ -46,7 +48,9 @@ BEGIN
   VALUES
     (id_profile_permission, 'access-profile'),
     (id_user_permission, 'access-users'),
+    (id_user_reference_role_permission, 'access-users-reference-roles'),
     (id_role_permission, 'access-roles'),
+    (id_role_reference_permission_permission, 'access-roles-reference-permissions'),
     (id_permission_permission, 'access-permissions')
   ;
 
@@ -58,9 +62,11 @@ BEGIN
 
   INSERT INTO roles_permissions
   VALUES
-    (id_admin, id_user_permission),
     (id_admin, id_profile_permission),
+    (id_admin, id_user_permission),
+    (id_admin, id_user_reference_role_permission),
     (id_admin, id_role_permission),
+    (id_admin, id_role_reference_permission_permission),
     (id_admin, id_permission_permission),
     (id_user, id_profile_permission)
   ;
