@@ -13,13 +13,17 @@ const app = express();
 
 app.use(express.static('public'));
 
-app.use(cors());
-app.use(express.json());
+const apiRouter = express.Router();
 
-app.use('/profile', profileRouter);
-app.use('/users', usersRouter);
-app.use('/roles', rolesRouter);
-app.use('/permissions', permissionsRouter);
+apiRouter.use(cors());
+apiRouter.use(express.json());
+
+apiRouter.use('/profile', profileRouter);
+apiRouter.use('/users', usersRouter);
+apiRouter.use('/roles', rolesRouter);
+apiRouter.use('/permissions', permissionsRouter);
+
+app.use('/api', apiRouter);
 
 
 app.listen(PORT, () => console.log(`Listening to User Management, port ${PORT}`));
