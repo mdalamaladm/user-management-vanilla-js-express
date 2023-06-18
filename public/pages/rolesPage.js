@@ -29,11 +29,11 @@ export async function rolesPage () {
     onLoad: async () => {
       const token = localStorage.getItem('token');
 
-      const rawResponseRoles = await fetch('http://localhost:5000/roles', {
+      const rawResponseRoles = await fetch('http://localhost:5000/api/roles', {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` }
       });
-      const rawResponsePermissions = await fetch('http://localhost:5000/permissions/references', {
+      const rawResponsePermissions = await fetch('http://localhost:5000/api/permissions/references', {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -110,7 +110,7 @@ export async function rolesPage () {
 
         const id = data.roles[index].id
   
-        const rawResponse = await fetch(`http://localhost:5000/roles/${id}`, {
+        const rawResponse = await fetch(`http://localhost:5000/api/roles/${id}`, {
           method: 'PUT',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -155,7 +155,7 @@ export async function rolesPage () {
 
         const id = data.roles[index].id
   
-        const rawResponse = await fetch(`http://localhost:5000/roles/${id}`, {
+        const rawResponse = await fetch(`http://localhost:5000/api/roles/${id}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -205,7 +205,7 @@ export async function rolesPage () {
     formComponent.init('add-roles', async (payload) => {
       const token = localStorage.getItem('token');
 
-      const rawResponse = await fetch(`http://localhost:5000/roles`, {
+      const rawResponse = await fetch(`http://localhost:5000/api/roles`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

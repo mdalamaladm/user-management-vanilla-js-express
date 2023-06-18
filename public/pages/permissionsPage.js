@@ -25,7 +25,7 @@ export async function permissionsPage () {
     onLoad: async () => {
       const token = localStorage.getItem('token');
 
-      const rawResponse = await fetch('http://localhost:5000/permissions', {
+      const rawResponse = await fetch('http://localhost:5000/api/permissions', {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` }
       });

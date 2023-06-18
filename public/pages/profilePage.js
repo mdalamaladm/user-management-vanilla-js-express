@@ -26,7 +26,7 @@ export async function profilePage () {
     onLoad: async () => {
       const token = localStorage.getItem('token');
 
-      const rawResponse = await fetch('http://localhost:5000/profile', {
+      const rawResponse = await fetch('http://localhost:5000/api/profile', {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -98,7 +98,7 @@ export async function profilePage () {
     formComponent.init('edit-profile', async (payload) => {
       const token = localStorage.getItem('token');
 
-      const rawResponse = await fetch('http://localhost:5000/profile', {
+      const rawResponse = await fetch('http://localhost:5000/api/profile', {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -142,7 +142,7 @@ export async function profilePage () {
     removeButtonDialog.onclick = async () => {
       const token = localStorage.getItem('token');
 
-      const rawResponse = await fetch(`http://localhost:5000/profile`, {
+      const rawResponse = await fetch(`http://localhost:5000/api/profile`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

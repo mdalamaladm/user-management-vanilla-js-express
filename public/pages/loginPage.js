@@ -57,7 +57,7 @@ export function loginPage () {
       const username = document.getElementById('login-username').value;
       const password = document.getElementById('login-password').value;
   
-      const rawResponse = await fetch('http://localhost:5000/users/token', {
+      const rawResponse = await fetch('http://localhost:5000/api/users/token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })

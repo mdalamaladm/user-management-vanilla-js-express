@@ -72,7 +72,7 @@ export function registerPage() {
       const username = document.getElementById('register-username').value;
       const password = document.getElementById('register-password').value;
   
-      const rawResponse = await fetch('http://localhost:5000/users/registration', {
+      const rawResponse = await fetch('http://localhost:5000/api/users/registration', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, description, photo, username, password })
