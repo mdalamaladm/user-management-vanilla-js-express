@@ -4,8 +4,7 @@
   "description": "Application For Managing User",
   "main": "index.js",
   "scripts": {
-    "start:server": "nodemon server.js",
-    "start:app": "nodemon app.js",
+    "start": "nodemon app.js",
     "init": "PGPASSWORD=postgres psql -U postgres -d postgres -f init.sql",
     "test": "test"
   },
